@@ -31,7 +31,7 @@ const projects = [
 ];
 
 const ProjectsSection = () => {
-	return (
+  return (
     <FullScreenSection
       backgroundColor="#14532d"
       isDarkBackground
@@ -59,5 +59,6 @@ const ProjectsSection = () => {
     </FullScreenSection>
   );
 };
+
 
 export default ProjectsSection;
