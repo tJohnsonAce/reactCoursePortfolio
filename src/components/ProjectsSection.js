@@ -13,7 +13,7 @@ const projects = [
   {
     title: "React Infinite Scroll",
     description:
-      "A scrollable bottom sheet with virtualization support, native animations at 60 FPS and fully implemented in JS land 🔥️",
+      "A scrollable bottom sheet with virtualisation support, native animations at 60 FPS and fully implemented in JS land 🔥️",
     getImageSrc: () => require("../images/photo2.jpg"),
   },
   {
@@ -59,6 +59,5 @@ const ProjectsSection = () => {
     </FullScreenSection>
   );
 };
-
 
 export default ProjectsSection;
