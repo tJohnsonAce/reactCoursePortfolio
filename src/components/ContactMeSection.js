@@ -22,10 +22,47 @@ const LandingSection = () => {
   const { onOpen } = useAlertContext();
 
   const formik = useFormik({
-    initialValues: {},
-    onSubmit: (values) => {},
-    validationSchema: Yup.object({}),
+    initialValues: {
+      firstName: '',
+      email: '',
+      type: 'other',
+      comment: '',
+    },
+    onSubmit: (values) => {
+      if (Object.keys(formik.errors).length > 0) {
+        onOpen({ message: formik.errors[Object.keys(formik.errors)[0]]
+        })
+      } else {
+        sendFormData(values)
+      }
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .required("First name is required")
+        .max(30, 'First name must be 30 characters or less'),
+      email: Yup.string()
+        .required('Email is required')
+        .email('Pease enter a valid email address'),
+        type: Yup.string()
+          .required('Type is required')
+          .oneOf(['hireMe', 'openSource', 'other'], 'Please select a valid type'),
+        comment: Yup.string()
+          .required('Comment is required')
+          .max(500, 'Comment must be 500 characters or less')
+    }),
   });
+
+  const sendFormData = (data) => {
+    // Perform the API call with the provided data
+  }
+
+  useEffect(() => {
+    if (response) {
+      // Show an alert message with the response
+      onOpen({ message: response })
+    }
+  }, [response, onOpen])
+  
 
   return (
     <FullScreenSection
@@ -41,22 +78,26 @@ const LandingSection = () => {
         <Box p={6} rounded="md" w="100%">
           <form>
             <VStack spacing={4}>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.firstName && !!formik.errors.firstName}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
                 <Input
                   id="firstName"
                   name="firstName"
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>
+                  {formik.touched.firstName && formik.errors.firstName ? formik.errors.firstName : ''}
+                </FormErrorMessage>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
                 <FormLabel htmlFor="email">Email Address</FormLabel>
                 <Input
                   id="email"
                   name="email"
                   type="email"
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>
+                  {formik.touched.email && formik.errors.email ? formik.errors.email : ''}
+                </FormErrorMessage>
               </FormControl>
               <FormControl>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
@@ -68,14 +109,16 @@ const LandingSection = () => {
                   <option value="other">Other</option>
                 </Select>
               </FormControl>
-              <FormControl isInvalid={false}>
+              <FormControl isInvalid={formik.touched.comment && !!formik.errors.comment}>
                 <FormLabel htmlFor="comment">Your message</FormLabel>
                 <Textarea
                   id="comment"
                   name="comment"
                   height={250}
                 />
-                <FormErrorMessage></FormErrorMessage>
+                <FormErrorMessage>
+                {formik.touched.comment && formik.errors.comment ? formik.errors.comment : ''}
+                </FormErrorMessage>
               </FormControl>
               <Button type="submit" colorScheme="purple" width="full">
                 Submit
