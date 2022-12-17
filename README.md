@@ -1,1 +1,1 @@
-My first portfolio site built with React. 
+My first mock portfolio site built with React. 
